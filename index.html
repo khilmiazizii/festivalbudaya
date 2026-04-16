@@ -301,8 +301,8 @@
                     <div>
                         <p class="text-sm text-gray-700 font-medium">Butuh Bantuan / Konfirmasi Manual?</p>
                         <p class="text-xs text-gray-500 mt-1">Hubungi Panitia (CP):</p>
-                        <a href="https://wa.me/6285179712235" target="_blank" class="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 hover:text-emerald-700 mt-1">
-                            <i class="fa-brands fa-whatsapp text-lg"></i> 0851-7971-2235 (Panitia Festival)
+                        <a href="https://wa.me/6281234567890" target="_blank" class="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 hover:text-emerald-700 mt-1">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> 0812-3456-7890 (Panitia Festival)
                         </a>
                     </div>
                 </div>
@@ -677,9 +677,12 @@
                 mimeType: appState.mimeType
             };
 
-            // Mengirim data pakai Fetch API (Aman untuk Hosting luar)
+            // Mengirim data pakai Fetch API dengan Header khusus untuk mencegah CORS Error Google
             fetch(GAS_WEB_APP_URL, {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                },
                 body: JSON.stringify(finalData)
             })
             .then(function(response) {
@@ -694,7 +697,8 @@
                 }
             })
             .catch(function(error) {
-                Swal.fire('Error Jaringan!', 'Gagal menghubungi server. Pastikan koneksi internet stabil.', 'error');
+                console.error("Detail Error:", error);
+                Swal.fire('Akses Ditolak / Jaringan Error', 'Terdapat 2 kemungkinan:\n1. Internet Anda terputus.\n2. Setelan Google Apps Script Anda belum diubah ke "Siapa Saja (Anyone)".', 'error');
                 resetSubmitBtn(btn);
             });
         }

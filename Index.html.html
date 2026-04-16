@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Festival Budaya Gresik</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        emerald: { 500: '#10b981', 600: '#059669', 700: '#047857' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Transition utility */
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Background Zoom Animation */
+        .zoom-bg { animation: zoomBg 20s infinite alternate linear; }
+        @keyframes zoomBg {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); }
+        }
+        
+        /* Glassmorphism utility */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased min-h-screen flex items-center justify-center p-4">
+
+    <!-- Main Card Container -->
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden relative border border-gray-100">
+        
+        <!-- Header / Progress Bar -->
+        <div id="progress-container" class="hidden bg-gray-100 h-2 w-full">
+            <div id="progress-bar" class="bg-emerald-500 h-2 transition-all duration-500" style="width: 33.33%;"></div>
+        </div>
+
+        <!-- ================= PAGE 1: HOME ================= -->
+        <div id="page1" class="page-section fade-in relative min-h-[550px] flex flex-col justify-end overflow-hidden group">
+            <!-- Background Image with Zoom Effect -->
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1604928141064-207cea6f571f?q=80&w=1000&auto=format&fit=crop" alt="Festival Budaya Gresik" class="w-full h-full object-cover zoom-bg">
+                <!-- Advanced Gradient Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/70 to-gray-900/20"></div>
+            </div>
+            
+            <!-- Content -->
+            <div class="relative z-10 p-6 md:p-8 text-white w-full mt-auto">
+                <!-- Badges -->
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="glass px-3 py-1 text-xs font-semibold rounded-full text-emerald-300">
+                        <i class="fa-solid fa-star text-amber-400 mr-1"></i> Festival Terbesar 2026
+                    </span>
+                    <span class="glass px-3 py-1 text-xs font-semibold rounded-full text-white">
+                        Tiket Terbatas
+                    </span>
+                </div>
+
+                <!-- Title -->
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-3 leading-tight drop-shadow-lg">
+                    Gresik <span class="text-emerald-400">Culture</span> Fest
+                </h1>
+                
+                <!-- Description -->
+                <p class="text-gray-200 text-sm md:text-base mb-6 leading-relaxed max-w-lg">
+                    Mari rayakan kekayaan tradisi, seni, dan kuliner khas Kota Wali. Saksikan kemeriahan kirab budaya, pameran Damar Kurung, hingga pertunjukan memukau pencak macan.
+                </p>
+                
+                <!-- Info Section -->
+                <div class="flex items-center gap-5 text-sm text-gray-300 mb-8 border-l-2 border-emerald-500 pl-4">
+                    <div class="flex flex-col gap-1">
+                        <span class="flex items-center gap-2"><i class="fa-regular fa-calendar text-emerald-400"></i> 15 - 20 April 2026</span>
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-location-dot text-emerald-400"></i> Bandar Grisse, Gresik</span>
+                    </div>
+                </div>
+
+                <!-- Interactive Button -->
+                <button onclick="goToPage(2)" class="w-full md:w-auto inline-flex justify-center items-center gap-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-8 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(16,185,129,0.6)] transform hover:-translate-y-1">
+                    Daftar Sekarang 
+                    <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center transition-transform group-hover:translate-x-1">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 2: FORM PENDAFTARAN ================= -->
+        <div id="page2" class="page-section hidden fade-in p-6 md:p-8">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="goToPage(1)" class="text-gray-400 hover:text-emerald-600 transition"><i class="fa-solid fa-chevron-left text-xl"></i></button>
+                <h2 class="text-2xl font-bold text-gray-800">Data Pendaftaran</h2>
+            </div>
+
+            <form id="formPendaftaran" class="space-y-6">
+                <!-- Data Diri -->
+                <div class="space-y-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <h3 class="font-semibold text-gray-700 border-b pb-2"><i class="fa-regular fa-id-card mr-2 text-emerald-600"></i>Data Diri Utama</h3>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap (Sesuai KTP/KK) <span class="text-red-500">*</span></label>
+                        <input type="text" id="nama" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="Masukkan nama lengkap">
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nomor WhatsApp <span class="text-red-500">*</span></label>
+                            <input type="tel" id="wa" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none transition" placeholder="08123456789">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+                            <input type="email" id="email" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none transition" placeholder="email@contoh.com">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alamat Domisili -->
+                <div class="space-y-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <h3 class="font-semibold text-gray-700 border-b pb-2"><i class="fa-solid fa-house-chimney mr-2 text-emerald-600"></i>Alamat Domisili</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Provinsi <span class="text-red-500">*</span></label>
+                            <select id="provDom" onchange="loadRegencies(this.value, 'kotaDom')" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 bg-white outline-none">
+                                <option value="">Pilih Provinsi</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Kabupaten/Kota <span class="text-red-500">*</span></label>
+                            <select id="kotaDom" onchange="loadDistricts(this.value, 'kecDom')" required disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 bg-gray-100 outline-none disabled:opacity-70">
+                                <option value="">Pilih Kab/Kota</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Kecamatan <span class="text-red-500">*</span></label>
+                            <select id="kecDom" onchange="loadVillages(this.value, 'desaDom')" required disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 bg-gray-100 outline-none disabled:opacity-70">
+                                <option value="">Pilih Kecamatan</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Desa/Dusun <span class="text-red-500">*</span></label>
+                            <select id="desaDom" required disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 bg-gray-100 outline-none disabled:opacity-70">
+                                <option value="">Pilih Desa/Kelurahan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Jalan / Detail (Opsional)</label>
+                        <input type="text" id="jalanDom" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none transition" placeholder="Jl. Raya / Blok / RT RW">
+                    </div>
+                </div>
+
+                <!-- Alamat Asli -->
+                <div class="space-y-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <h3 class="font-semibold text-gray-700"><i class="fa-solid fa-map-location-dot mr-2 text-emerald-600"></i>Alamat Asli (KTP)</h3>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" id="samaDomisili" onchange="toggleAlamatAsli()" class="rounded text-emerald-600 focus:ring-emerald-500 w-4 h-4">
+                            <span class="text-sm font-medium text-emerald-700">Sama dengan Domisili</span>
+                        </label>
+                    </div>
+                    
+                    <div id="containerAlamatAsli" class="grid grid-cols-1 md:grid-cols-2 gap-4 transition-all">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Provinsi <span class="text-red-500">*</span></label>
+                            <select id="provAsli" onchange="loadRegencies(this.value, 'kotaAsli')" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 bg-white outline-none">
+                                <option value="">Pilih Provinsi</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Kabupaten/Kota <span class="text-red-500">*</span></label>
+                            <select id="kotaAsli" onchange="loadDistricts(this.value, 'kecAsli')" disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 bg-gray-100 outline-none disabled:opacity-70">
+                                <option value="">Pilih Kab/Kota</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Kecamatan <span class="text-red-500">*</span></label>
+                            <select id="kecAsli" onchange="loadVillages(this.value, 'desaAsli')" disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 bg-gray-100 outline-none disabled:opacity-70">
+                                <option value="">Pilih Kecamatan</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Desa/Dusun <span class="text-red-500">*</span></label>
+                            <select id="desaAsli" disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 bg-gray-100 outline-none disabled:opacity-70">
+                                <option value="">Pilih Desa/Kelurahan</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orang Tambahan -->
+                <div class="space-y-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <h3 class="font-semibold text-gray-700 border-b pb-2"><i class="fa-solid fa-users mr-2 text-emerald-600"></i>Tambahan Orang yang Hadir</h3>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Berapa orang tambahan yang Anda bawa?</label>
+                        <select id="jumlahTambahan" onchange="generateTambahanFields()" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 bg-white outline-none">
+                            <option value="0">Tidak Ada (Hanya Saya)</option>
+                            <option value="1">1 Orang</option>
+                            <option value="2">2 Orang</option>
+                            <option value="3">3 Orang</option>
+                            <option value="4">4 Orang</option>
+                            <option value="5">5 Orang</option>
+                        </select>
+                    </div>
+                    <div id="containerNamaTambahan" class="space-y-3">
+                        <!-- Input fields dinamis akan muncul di sini -->
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t">
+                    <button type="button" onclick="validateAndGoToPayment()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition duration-300 shadow-lg shadow-emerald-500/30 flex justify-center items-center gap-2">
+                        Lanjut ke Pembayaran <i class="fa-solid fa-credit-card"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ================= PAGE 3: PEMBAYARAN ================= -->
+        <div id="page3" class="page-section hidden fade-in p-6 md:p-8">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="goToPage(2)" class="text-gray-400 hover:text-emerald-600 transition"><i class="fa-solid fa-chevron-left text-xl"></i></button>
+                <h2 class="text-2xl font-bold text-gray-800">Pembayaran Tiket</h2>
+            </div>
+
+            <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-5 mb-6 text-center">
+                <p class="text-sm text-emerald-800 mb-1">Total Tagihan untuk <strong id="lblJumlahOrang">1</strong> Orang</p>
+                <h3 class="text-3xl font-bold text-emerald-600 mb-2" id="lblTotalBayar">Rp 20.000</h3>
+                <p class="text-xs text-emerald-600 bg-emerald-100 inline-block px-2 py-1 rounded-md">Rp 20.000 / orang</p>
+            </div>
+
+            <!-- Transfer Bank / QR Info -->
+            <div class="bg-white border rounded-xl mb-6 shadow-sm overflow-hidden">
+                <div class="bg-[#ed1c24] text-white p-3 text-center font-semibold flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-qrcode"></i> Scan QRIS Dinamis
+                </div>
+                <div class="p-5 flex flex-col items-center justify-center space-y-4">
+                    <p class="text-sm text-gray-600 text-center">Gunakan aplikasi E-Wallet atau M-Banking Anda untuk scan kode di bawah ini.</p>
+                    
+                    <!-- KOTAK GAMBAR QRIS -->
+                    <div class="border-4 border-[#ed1c24] rounded-xl p-2 bg-white shadow-md relative group">
+                        <img id="qrisImage" src="" alt="QRIS Mohammad Khilmi Azizi" class="w-48 h-48 object-contain transition-transform duration-300 group-hover:scale-105">
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-xs text-gray-500 uppercase tracking-wide">Terdaftar atas nama</p>
+                        <p class="text-sm font-bold text-gray-800 mt-1 uppercase">MOHAMMAD KHILMI AZIZI, DIGITAL & KREATIF</p>
+                    </div>
+                    
+                    <p class="text-xs text-emerald-600 bg-emerald-50 px-3 py-2 rounded border border-emerald-200 w-full text-center">
+                        <i class="fa-solid fa-circle-check mr-1"></i> Nominal tagihan <strong id="lblPeringatanNominal">Rp 20.000</strong> akan <strong>terisi otomatis</strong> saat di-scan.
+                    </p>
+                </div>
+            </div>
+
+            <form id="formPembayaran" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Upload Bukti Transfer <span class="text-red-500">*</span></label>
+                    <div class="flex items-center justify-center w-full">
+                        <label for="buktiBayar" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-emerald-50 hover:border-emerald-400 transition">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <i class="fa-solid fa-cloud-arrow-up text-3xl text-gray-400 mb-2"></i>
+                                <p class="mb-1 text-sm text-gray-500"><span class="font-semibold text-emerald-600">Klik untuk upload</span> atau drag & drop</p>
+                                <p class="text-xs text-gray-500">PNG, JPG atau PDF (Maks. 2MB)</p>
+                            </div>
+                            <input id="buktiBayar" type="file" accept="image/*,application/pdf" class="hidden" required onchange="handleFileUpload(event)" />
+                        </label>
+                    </div>
+                    <div id="filePreviewName" class="mt-2 text-sm text-emerald-600 font-medium hidden text-center"></div>
+                </div>
+
+                <div class="bg-orange-50 border border-orange-100 rounded-xl p-4 flex items-start gap-3">
+                    <i class="fa-solid fa-headset text-orange-500 mt-1"></i>
+                    <div>
+                        <p class="text-sm text-gray-700 font-medium">Butuh Bantuan / Konfirmasi Manual?</p>
+                        <p class="text-xs text-gray-500 mt-1">Hubungi Panitia (CP):</p>
+                        <a href="https://wa.me/6285179712235" target="_blank" class="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 hover:text-emerald-700 mt-1">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> 0851-7971-2235 (Panitia Festival)
+                        </a>
+                    </div>
+                </div>
+
+                <button type="button" onclick="submitFinalData()" id="btnSubmit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition duration-300 shadow-lg shadow-emerald-500/30 flex justify-center items-center gap-2">
+                    <span>Selesaikan Pendaftaran</span> <i class="fa-solid fa-check-circle"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // ==========================================
+        // 1. LINK BACKEND GOOGLE APPS SCRIPT ANDA
+        // ==========================================
+        // Ganti dengan URL hasil Deploy Code.gs Anda (yang berakhiran /exec)
+        var GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxdjkzwuqh-5ORspingxfzpk3OshSHdywA8LuILiRhF_Y2IMUQnhqMsFbijyurXDJk7ZA/exec"; 
+
+        // ==========================================
+        // 2. TEKS QRIS ASLI DARI HASIL SCAN
+        // ==========================================
+        var QRIS_STATIS_STRING = "00020101021126610014COM.GO-JEK.WWW01189360091434111889150210G4111889150303UMI51440014ID.CO.QRIS.WWW0215ID10265039027710303UMI5204899953033605802ID5925MOHAMMAD KHILMI AZIZI, Di6006GRESIK61056115562070703A0163048598";
+
+
+        var API_WILAYAH_ENDPOINTS = [
+            'https://emsifa.github.io/api-wilayah-indonesia/api/',
+            'https://www.emsifa.com/api-wilayah-indonesia/api/'
+        ];
+
+        var appState = {
+            currentPage: 1,
+            ticketPrice: 20000,
+            base64File: null,
+            fileName: null,
+            mimeType: null
+        };
+
+        // ================= LIFECYCLE & AUTO-SAVE =================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProvinces('provDom');
+            loadProvinces('provAsli');
+            
+            var savedDraft = null;
+            try { savedDraft = window.localStorage.getItem('festival_draft'); } catch(e) {}
+            
+            if(savedDraft) {
+                try {
+                    var data = JSON.parse(savedDraft);
+                    if(data && data.namaLengkap && appState.currentPage === 1) {
+                        Swal.fire({
+                            title: 'Lanjutkan Pendaftaran?',
+                            text: "Anda memiliki data pendaftaran yang belum selesai. Lanjutkan?",
+                            icon: 'info',
+                            showCancelButton: true,
+                            confirmButtonColor: '#10b981',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya, Lanjutkan',
+                            cancelButtonText: 'Mulai Baru'
+                        }).then(function(result) {
+                            if (result.isConfirmed) {
+                                restoreForm(data);
+                                if(data.step && data.step > 1) { goToPage(data.step); }
+                            } else {
+                                try { window.localStorage.removeItem('festival_draft'); } catch(e){}
+                            }
+                        });
+                    }
+                } catch(e) {}
+            }
+
+            var inputs = document.querySelectorAll('#formPendaftaran input, #formPendaftaran select');
+            for(var i = 0; i < inputs.length; i++) {
+                inputs[i].addEventListener('change', autoSaveDraft);
+                inputs[i].addEventListener('input', autoSaveDraft);
+            }
+        });
+
+        function autoSaveDraft() {
+            if(appState.currentPage === 1) return;
+            try {
+                var data = collectFormData();
+                data.step = appState.currentPage;
+                window.localStorage.setItem('festival_draft', JSON.stringify(data));
+            } catch (e) {}
+        }
+
+        // ================= NAVIGATION =================
+        function goToPage(pageNumber) {
+            var sections = document.querySelectorAll('.page-section');
+            for(var i = 0; i < sections.length; i++) {
+                sections[i].classList.add('hidden');
+            }
+            document.getElementById('page' + pageNumber).classList.remove('hidden');
+            
+            var progressContainer = document.getElementById('progress-container');
+            var progressBar = document.getElementById('progress-bar');
+            
+            if(pageNumber === 1) {
+                progressContainer.classList.add('hidden');
+            } else {
+                progressContainer.classList.remove('hidden');
+                if (pageNumber === 2) progressBar.style.width = '66.66%';
+                else if (pageNumber === 3) progressBar.style.width = '100%';
+            }
+
+            appState.currentPage = pageNumber;
+
+            if(pageNumber === 3) updatePaymentView();
+
+            autoSaveDraft();
+            window.scrollTo(0, 0);
+        }
+
+        // ================= FORM LOGIC =================
+        function toggleAlamatAsli() {
+            var isChecked = document.getElementById('samaDomisili').checked;
+            var container = document.getElementById('containerAlamatAsli');
+            var inputsAsli = container.querySelectorAll('select');
+            
+            if (isChecked) {
+                container.classList.add('opacity-50', 'pointer-events-none');
+                for(var i = 0; i < inputsAsli.length; i++) {
+                    inputsAsli[i].required = false;
+                    inputsAsli[i].classList.remove('border-red-500');
+                }
+            } else {
+                container.classList.remove('opacity-50', 'pointer-events-none');
+                for(var j = 0; j < inputsAsli.length; j++) {
+                    inputsAsli[j].required = true;
+                }
+            }
+            autoSaveDraft();
+        }
+
+        function generateTambahanFields() {
+            var jml = parseInt(document.getElementById('jumlahTambahan').value);
+            var container = document.getElementById('containerNamaTambahan');
+            container.innerHTML = '';
+            
+            for(var i = 1; i <= jml; i++) {
+                container.innerHTML += 
+                    '<div class="fade-in mt-2">' +
+                        '<label class="block text-xs font-medium text-gray-600 mb-1">Nama Orang Tambahan ke-' + i + ' <span class="text-red-500">*</span></label>' +
+                        '<input type="text" id="namaTambahan_' + i + '" name="namaTambahan" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Masukkan nama lengkap">' +
+                    '</div>';
+            }
+            
+            var newInputs = container.querySelectorAll('input');
+            for(var k = 0; k < newInputs.length; k++) {
+                newInputs[k].addEventListener('input', autoSaveDraft);
+            }
+            autoSaveDraft();
+        }
+
+        // ================= API WILAYAH =================
+        function fetchAPI(endpoint, attemptIndex) {
+            if (attemptIndex === undefined) attemptIndex = 0;
+            if (attemptIndex >= API_WILAYAH_ENDPOINTS.length) {
+                console.error('Semua sumber API gagal diakses.');
+                return Promise.resolve([]);
+            }
+            
+            var base = API_WILAYAH_ENDPOINTS[attemptIndex];
+            return fetch(base + endpoint)
+                .then(function(res) {
+                    if(res.ok) return res.json();
+                    throw new Error('Gagal memuat data');
+                })
+                .catch(function(err) {
+                    return fetchAPI(endpoint, attemptIndex + 1);
+                });
+        }
+
+        function populateSelect(selectId, data, placeholder) {
+            var select = document.getElementById(selectId);
+            if(!select) return;
+            select.innerHTML = '<option value="">' + placeholder + '</option>';
+            for(var i = 0; i < data.length; i++) {
+                select.innerHTML += '<option value="' + data[i].id + '|' + data[i].name + '">' + data[i].name + '</option>';
+            }
+            select.disabled = false;
+            select.classList.remove('bg-gray-100');
+            select.classList.add('bg-white');
+        }
+
+        function loadProvinces(targetId) {
+            fetchAPI('provinces.json').then(function(data) { populateSelect(targetId, data, 'Pilih Provinsi'); });
+        }
+
+        function loadRegencies(val, targetId) {
+            if(!val) return;
+            var provId = val.split('|')[0];
+            fetchAPI('regencies/' + provId + '.json').then(function(data) {
+                populateSelect(targetId, data, 'Pilih Kab/Kota');
+                var isDom = targetId.indexOf('Dom') !== -1;
+                document.getElementById(isDom ? 'kecDom' : 'kecAsli').innerHTML = '<option value="">Pilih Kecamatan</option>';
+                document.getElementById(isDom ? 'kecDom' : 'kecAsli').disabled = true;
+                document.getElementById(isDom ? 'desaDom' : 'desaAsli').innerHTML = '<option value="">Pilih Desa/Kelurahan</option>';
+                document.getElementById(isDom ? 'desaDom' : 'desaAsli').disabled = true;
+            });
+        }
+
+        function loadDistricts(val, targetId) {
+            if(!val) return;
+            var regId = val.split('|')[0];
+            fetchAPI('districts/' + regId + '.json').then(function(data) {
+                populateSelect(targetId, data, 'Pilih Kecamatan');
+                var isDom = targetId.indexOf('Dom') !== -1;
+                document.getElementById(isDom ? 'desaDom' : 'desaAsli').innerHTML = '<option value="">Pilih Desa/Kelurahan</option>';
+                document.getElementById(isDom ? 'desaDom' : 'desaAsli').disabled = true;
+            });
+        }
+
+        function loadVillages(val, targetId) {
+            if(!val) return;
+            var distId = val.split('|')[0];
+            fetchAPI('villages/' + distId + '.json').then(function(data) {
+                populateSelect(targetId, data, 'Pilih Desa/Kelurahan');
+            });
+        }
+
+        // ================= VALIDATION & PAYMENT =================
+        function validateAndGoToPayment() {
+            var form = document.getElementById('formPendaftaran');
+            if(!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            goToPage(3);
+        }
+
+        function calculateCRC16(str) {
+            var crc = 0xFFFF;
+            for (var c = 0; c < str.length; c++) {
+                crc ^= str.charCodeAt(c) << 8;
+                for (var i = 0; i < 8; i++) {
+                    if (crc & 0x8000) crc = (crc << 1) ^ 0x1021;
+                    else crc = crc << 1;
+                }
+            }
+            var result = (crc & 0xFFFF).toString(16).toUpperCase();
+            while(result.length < 4) { result = '0' + result; } 
+            return result;
+        }
+
+        function createDynamicQRIS(staticQRIS, amount) {
+            if(staticQRIS.indexOf("PASTE_HASIL_SCAN") !== -1) return staticQRIS;
+
+            var qris = staticQRIS.replace("010211", "010212");
+            var idx6304 = qris.lastIndexOf("6304");
+            if(idx6304 === -1) return staticQRIS; 
+            
+            var baseQris = qris.substring(0, idx6304);
+            var strAmount = amount.toString();
+            var lenAmount = strAmount.length.toString();
+            if(lenAmount.length < 2) { lenAmount = '0' + lenAmount; } 
+            
+            var tag54 = "54" + lenAmount + strAmount;
+            var payload = baseQris + tag54 + "6304";
+            var newCRC = calculateCRC16(payload);
+            
+            return payload + newCRC;
+        }
+
+        function updatePaymentView() {
+            var jmlTambahan = parseInt(document.getElementById('jumlahTambahan').value) || 0;
+            var totalOrang = 1 + jmlTambahan;
+            var totalBayar = totalOrang * appState.ticketPrice;
+
+            document.getElementById('lblJumlahOrang').innerText = totalOrang;
+            document.getElementById('lblTotalBayar').innerText = 'Rp ' + totalBayar.toLocaleString('id-ID');
+            
+            var lblPeringatan = document.getElementById('lblPeringatanNominal');
+            if (lblPeringatan) lblPeringatan.innerText = 'Rp ' + totalBayar.toLocaleString('id-ID');
+
+            var dynamicQRISString = createDynamicQRIS(QRIS_STATIS_STRING, totalBayar);
+            document.getElementById('qrisImage').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(dynamicQRISString);
+        }
+
+        // ================= FILE UPLOAD & SUBMIT =================
+        function handleFileUpload(event) {
+            var file = event.target.files[0];
+            if(!file) return;
+
+            if(file.size > 2 * 1024 * 1024) { 
+                Swal.fire('File Terlalu Besar!', 'Maksimal ukuran file adalah 2MB.', 'error');
+                event.target.value = '';
+                return;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                appState.base64File = e.target.result.split(',')[1]; 
+                appState.fileName = file.name;
+                appState.mimeType = file.type;
+                
+                var preview = document.getElementById('filePreviewName');
+                preview.innerHTML = '<i class="fa-solid fa-file-check mr-1"></i> File terpilih: ' + file.name;
+                preview.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function collectFormData() {
+            var getName = function(id) {
+                var el = document.getElementById(id);
+                if (!el) return "";
+                var val = el.value;
+                return val.indexOf('|') !== -1 ? val.split('|')[1] : val;
+            };
+
+            var getVal = function(id) {
+                var el = document.getElementById(id);
+                return el ? el.value : "";
+            };
+
+            var elSama = document.getElementById('samaDomisili');
+            var isSama = elSama ? elSama.checked : false;
+            
+            var tambahanArr = [];
+            var jumlahEl = document.getElementById('jumlahTambahan');
+            var jml = jumlahEl ? parseInt(jumlahEl.value) : 0;
+            
+            for(var i = 1; i <= jml; i++) {
+                var el = document.getElementById('namaTambahan_' + i);
+                if(el) tambahanArr.push(el.value);
+            }
+
+            return {
+                namaLengkap: getVal('nama'),
+                wa: getVal('wa'),
+                email: getVal('email'),
+                domisili: { provinsi: getName('provDom'), kota: getName('kotaDom'), kecamatan: getName('kecDom'), desa: getName('desaDom'), jalan: getVal('jalanDom') },
+                asli: isSama ? { provinsi: getName('provDom'), kota: getName('kotaDom'), kecamatan: getName('kecDom'), desa: getName('desaDom') } 
+                             : { provinsi: getName('provAsli'), kota: getName('kotaAsli'), kecamatan: getName('kecAsli'), desa: getName('desaAsli') },
+                isAsliSamaDomisili: isSama,
+                jumlahTambahan: jml,
+                namaTambahan: tambahanArr,
+                totalBayar: (1 + jml) * appState.ticketPrice,
+                waktuDaftar: new Date().toISOString()
+            };
+        }
+
+        // ================= INTEGRASI KE HOSTING LUAR =================
+        function submitFinalData() {
+            var formPembayaran = document.getElementById('formPembayaran');
+            if(!formPembayaran.checkValidity()) {
+                formPembayaran.reportValidity();
+                return;
+            }
+
+            if(!appState.base64File) {
+                Swal.fire('Oops!', 'Harap upload bukti pembayaran terlebih dahulu.', 'warning');
+                return;
+            }
+
+            // Pengecekan URL Web App
+            if(GAS_WEB_APP_URL.indexOf("ISI_DENGAN_URL") !== -1) {
+                Swal.fire('Error Konfigurasi', 'URL Google Apps Script belum disetel di kode HTML. Harap hubungi Panitia.', 'error');
+                return;
+            }
+
+            var btn = document.getElementById('btnSubmit');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menyimpan Data...';
+            btn.disabled = true;
+
+            var finalData = collectFormData();
+            finalData.file = {
+                data: appState.base64File,
+                name: appState.fileName,
+                mimeType: appState.mimeType
+            };
+
+            // Mengirim data pakai Fetch API (Aman untuk Hosting luar)
+            fetch(GAS_WEB_APP_URL, {
+                method: 'POST',
+                body: JSON.stringify(finalData)
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                if(data.status === 'success') {
+                    suksesSubmit(finalData);
+                } else {
+                    Swal.fire('Error Server', data.message || 'Gagal menyimpan data.', 'error');
+                    resetSubmitBtn(btn);
+                }
+            })
+            .catch(function(error) {
+                Swal.fire('Error Jaringan!', 'Gagal menghubungi server. Pastikan koneksi internet stabil.', 'error');
+                resetSubmitBtn(btn);
+            });
+        }
+
+        function suksesSubmit(data) {
+            try { window.localStorage.removeItem('festival_draft'); } catch(e) {}
+            
+            var totalOrang = 1 + data.jumlahTambahan;
+            var totalBayarFormat = data.totalBayar.toLocaleString('id-ID');
+            var pesanWA = 'Halo Panitia, saya *' + data.namaLengkap + '*.\n\nSaya baru saja mendaftar untuk Festival Budaya Gresik.\n- Jumlah: *' + totalOrang + ' Orang*\n- Total Bayar: *Rp ' + totalBayarFormat + '*\n\nBukti pembayaran sudah saya upload di website.\nMohon info dan konfirmasi E-Ticket selanjutnya. Terima kasih!';
+            var pesanEncoded = encodeURIComponent(pesanWA);
+            var nomorPanitia = "6281234567890"; // Ganti dengan nomor WA panitia asli
+            var linkWA = 'https://wa.me/' + nomorPanitia + '?text=' + pesanEncoded;
+
+            Swal.fire({
+                title: 'Pendaftaran Berhasil!',
+                text: 'Data Anda telah tersimpan. Klik tombol di bawah ini untuk mengirimkan konfirmasi pendaftaran langsung ke WhatsApp Panitia.',
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#25D366', 
+                cancelButtonColor: '#9ca3af',
+                confirmButtonText: '<i class="fa-brands fa-whatsapp mr-2"></i> Konfirmasi via WA',
+                cancelButtonText: 'Tutup & Selesai',
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    window.open(linkWA, '_blank');
+                }
+                window.location.reload(); 
+            });
+        }
+
+        function resetSubmitBtn(btn) {
+            btn.innerHTML = '<span>Selesaikan Pendaftaran</span> <i class="fa-solid fa-check-circle"></i>';
+            btn.disabled = false;
+        }
+
+        function restoreForm(data) {
+            var fill = function(id, val) { if(document.getElementById(id) && val) document.getElementById(id).value = val; };
+            fill('nama', data.namaLengkap);
+            fill('wa', data.wa);
+            fill('email', data.email);
+            
+            if(data.domisili && data.domisili.jalan) fill('jalanDom', data.domisili.jalan);
+            
+            if(data.isAsliSamaDomisili) {
+                var elSama = document.getElementById('samaDomisili');
+                if(elSama) elSama.checked = true;
+                toggleAlamatAsli();
+            }
+            if(data.jumlahTambahan) {
+                fill('jumlahTambahan', data.jumlahTambahan);
+                generateTambahanFields();
+                if(data.namaTambahan && data.namaTambahan.length > 0) {
+                    for (var k = 0; k < data.namaTambahan.length; k++) {
+                        fill('namaTambahan_' + (k+1), data.namaTambahan[k]);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

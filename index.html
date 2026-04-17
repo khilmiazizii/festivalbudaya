@@ -46,8 +46,8 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Background Zoom Animation */
-        .zoom-bg { animation: zoomBg 25s infinite alternate ease-in-out; transform-origin: top center; }
+        /* Background Zoom Animation - Diubah origin ke top left agar gambar mentok kiri */
+        .zoom-bg { animation: zoomBg 25s infinite alternate ease-in-out; transform-origin: top left; }
         @keyframes zoomBg {
             0% { transform: scale(1); }
             100% { transform: scale(1.1); }
@@ -68,7 +68,8 @@
         <div id="page1" class="page-section fade-in relative min-h-[650px] md:min-h-[700px] flex flex-col justify-end overflow-hidden group bg-fesbud-light">
             <!-- Background Image -->
             <div class="absolute inset-0 z-0">
-                <img src="PHAMFLETFESBUD.jpeg" alt="Pamflet Festival Budaya Gresik" class="w-full h-full object-cover object-top zoom-bg">
+                <!-- Tambahkan object-left-top di class bawah ini agar gambar selalu mepet kiri -->
+                <img src="PHAMFLETFESBUD.jpeg" alt="Pamflet Festival Budaya Gresik" class="w-full h-full object-cover object-left-top zoom-bg">
                 <!-- Gradasi dipertinggi agar transisi ke area teks lebih halus -->
                 <div class="absolute bottom-0 w-full h-[70%] bg-gradient-to-t from-fesbud-dark via-fesbud-dark/70 to-transparent"></div>
             </div>
@@ -281,10 +282,10 @@
                     <p class="text-sm text-gray-600 text-center">Atau transfer langsung ke rekening bank di bawah ini.</p>
                     
                     <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 w-full text-center relative group shadow-inner">
-                        <p class="text-xs text-gray-500 mb-1 uppercase tracking-wide font-semibold">Bank BRI</p>
+                        <p class="text-xs text-gray-500 mb-1 uppercase tracking-wide font-semibold">SeaBank</p>
                         <!-- Ubah angka rekening sesuai kebutuhan -->
-                        <h4 class="text-2xl font-bold text-gray-800 tracking-wider font-mono">6286 0101 2345 539</h4>
-                        <p class="text-sm font-medium text-gray-700 mt-2">a.n. <span class="uppercase font-bold">NISLUKHAH</span></p>
+                        <h4 class="text-2xl font-bold text-gray-800 tracking-wider font-mono">9015 4044 7091</h4>
+                        <p class="text-sm font-medium text-gray-700 mt-2">a.n. <span class="uppercase font-bold">MOHAMMAD KHILMI AZIZI</span></p>
                         
                         <button type="button" onclick="copyRekening('628601012345539')" class="absolute top-2 right-2 text-gray-400 hover:text-fesbud-green transition p-2 rounded-md hover:bg-green-50" title="Salin Rekening">
                             <i class="fa-regular fa-copy text-lg"></i>

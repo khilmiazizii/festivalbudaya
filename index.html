@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pendaftaran Festival Budaya Gresik</title>
+    <!-- Tambahkan logo web / favicon di sini (Ganti linknya dengan logo Anda) -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3171/3171836.png" type="image/png">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -68,7 +70,8 @@
         <div id="page1" class="page-section fade-in relative min-h-[550px] flex flex-col justify-end overflow-hidden group">
             <!-- Background Image with Zoom Effect -->
             <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1604928141064-207cea6f571f?q=80&w=1000&auto=format&fit=crop" alt="Festival Budaya Gresik" class="w-full h-full object-cover zoom-bg">
+                <!-- Ganti link src di bawah dengan URL gambar background Halaman 1 Anda -->
+                <img src="PHAMFLETFESBUD.jpeg" alt="Festival Budaya Gresik" class="w-full h-full object-cover zoom-bg">
                 <!-- Advanced Gradient Overlay -->
                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/70 to-gray-900/20"></div>
             </div>
@@ -85,10 +88,14 @@
                     </span>
                 </div>
 
-                <!-- Title -->
-                <h1 class="text-4xl md:text-5xl font-extrabold mb-3 leading-tight drop-shadow-lg">
-                    Gresik <span class="text-emerald-400">Culture</span> Fest
-                </h1>
+                <!-- Title dengan Logo -->
+                <div class="flex items-center gap-4 mb-3">
+                    <!-- Ganti link src di bawah dengan URL logo acara Anda -->
+                    <img src="https://cdn-icons-png.flaticon.com/512/3171/3171836.png" alt="Logo" class="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-md">
+                    <h1 class="text-4xl md:text-5xl font-extrabold leading-tight drop-shadow-lg">
+                        Gresik <span class="text-emerald-400">Culture</span> Fest
+                    </h1>
+                </div>
                 
                 <!-- Description -->
                 <p class="text-gray-200 text-sm md:text-base mb-6 leading-relaxed max-w-lg">
@@ -273,6 +280,27 @@
                 </div>
             </div>
 
+            <!-- OPSI TRANSFER BANK MANUAL -->
+            <div class="bg-white border rounded-xl mb-6 shadow-sm overflow-hidden">
+                <div class="bg-[#00529C] text-white p-3 text-center font-semibold flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-building-columns"></i> Transfer Bank Manual
+                </div>
+                <div class="p-5 flex flex-col items-center justify-center space-y-4">
+                    <p class="text-sm text-gray-600 text-center">Atau transfer langsung ke rekening bank di bawah ini.</p>
+                    
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 w-full text-center relative group">
+                        <p class="text-xs text-gray-500 mb-1 uppercase tracking-wide">Bank BRI</p>
+                        <!-- Ubah angka rekening sesuai kebutuhan -->
+                        <h4 class="text-2xl font-bold text-gray-800 tracking-wider font-mono">6286 0101 2345 539</h4>
+                        <p class="text-sm font-medium text-gray-700 mt-2">a.n. <span class="uppercase font-bold">NISLUKHAH</span></p>
+                        
+                        <button type="button" onclick="copyRekening('628601012345539')" class="absolute top-2 right-2 text-gray-400 hover:text-blue-600 transition p-2 rounded-md hover:bg-blue-50" title="Salin Rekening">
+                            <i class="fa-regular fa-copy text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <form id="formPembayaran" class="space-y-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Upload Bukti Transfer <span class="text-red-500">*</span></label>
@@ -286,6 +314,8 @@
                             <input id="buktiBayar" type="file" accept="image/*,application/pdf" class="hidden" required onchange="handleFileUpload(event)" />
                         </label>
                     </div>
+                    <!-- Indikator Loading Kompresi -->
+                    <div id="fileCompressing" class="mt-2 text-sm text-amber-600 font-medium hidden text-center"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Sedang mengompres gambar...</div>
                     <div id="filePreviewName" class="mt-2 text-sm text-emerald-600 font-medium hidden text-center"></div>
                 </div>
 
@@ -312,14 +342,12 @@
         // ==========================================
         // 1. LINK BACKEND GOOGLE APPS SCRIPT ANDA
         // ==========================================
-        // Ganti dengan URL hasil Deploy Code.gs Anda (yang berakhiran /exec)
         var GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxdjkzwuqh-5ORspingxfzpk3OshSHdywA8LuILiRhF_Y2IMUQnhqMsFbijyurXDJk7ZA/exec"; 
 
         // ==========================================
         // 2. TEKS QRIS ASLI DARI HASIL SCAN
         // ==========================================
         var QRIS_STATIS_STRING = "00020101021126610014COM.GO-JEK.WWW01189360091434111889150210G4111889150303UMI51440014ID.CO.QRIS.WWW0215ID10265039027710303UMI5204899953033605802ID5925MOHAMMAD KHILMI AZIZI, Di6006GRESIK61056115562070703A0163048598";
-
 
         var API_WILAYAH_ENDPOINTS = [
             'https://emsifa.github.io/api-wilayah-indonesia/api/',
@@ -351,7 +379,6 @@
             loadProvinces('provDom');
             loadProvinces('provAsli');
             
-            // Pengecekan Kuota secara Live ke Database (Sheets)
             cekKuotaLive();
             
             var savedDraft = null;
@@ -393,9 +420,8 @@
             }
         });
 
-        // FUNGSI CEK KUOTA 400 ORANG
+        // FUNGSI CEK KUOTA
         function cekKuotaLive() {
-            // Memanggil API via GET Request ke Apps Script
             fetch(GAS_WEB_APP_URL + "?action=cek_kuota")
             .then(function(response) {
                 return response.json();
@@ -405,13 +431,11 @@
                     var terdaftar = parseInt(data.total);
                     var maks = parseInt(data.maksimal);
                     appState.sisaTiket = Math.max(0, maks - terdaftar);
-                    
                     updateTampilanSisaTiket(appState.sisaTiket);
                 }
             })
             .catch(function(error) {
-                console.warn("Gagal mengecek kuota live, menggunakan default.", error);
-                updateTampilanSisaTiket(50); // Fallback palsu agar form tetap bisa dibuka bila internet lag
+                updateTampilanSisaTiket(50); // Fallback
             });
         }
 
@@ -420,7 +444,6 @@
             var btn = document.getElementById('btnDaftarAwal');
             
             if(sisa <= 0) {
-                // Kuota Habis
                 badge.innerHTML = '<i class="fa-solid fa-circle-xmark text-red-500 mr-1"></i> Kuota Habis';
                 badge.className = 'glass px-3 py-1 text-xs font-semibold rounded-full text-red-200 flex items-center bg-red-900/50';
                 
@@ -428,15 +451,12 @@
                 btn.className = 'w-full md:w-auto inline-flex justify-center items-center gap-3 bg-gray-600 text-gray-300 font-bold py-3.5 px-8 rounded-full cursor-not-allowed';
                 btn.disabled = true;
             } else {
-                // Masih ada kuota
                 badge.innerHTML = '<i class="fa-solid fa-ticket text-amber-400 mr-1"></i> Sisa ' + sisa + ' Tiket';
                 badge.className = 'glass px-3 py-1 text-xs font-semibold rounded-full text-white flex items-center';
                 
                 btn.innerHTML = 'Daftar Sekarang <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center transition-transform group-hover:translate-x-1"><i class="fa-solid fa-arrow-right text-sm"></i></div>';
                 btn.className = 'w-full md:w-auto inline-flex justify-center items-center gap-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-8 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(16,185,129,0.6)] transform hover:-translate-y-1';
                 btn.disabled = false;
-                
-                // Set maksimal orang tambahan sesuai sisa tiket
                 updateDropdownTambahan(sisa);
             }
         }
@@ -444,10 +464,7 @@
         function updateDropdownTambahan(sisaTiket) {
             var select = document.getElementById('jumlahTambahan');
             select.innerHTML = '<option value="0">Tidak Ada (Hanya Saya)</option>';
-            
-            // Maksimal bisa ajak 5 orang, tapi dibatasi oleh sisa tiket (dikurangi 1 untuk dirinya sendiri)
             var maksBawa = Math.min(5, sisaTiket - 1);
-            
             for(var i = 1; i <= maksBawa; i++) {
                 select.innerHTML += '<option value="' + i + '">' + i + ' Orang</option>';
             }
@@ -535,10 +552,8 @@
         function fetchAPI(endpoint, attemptIndex) {
             if (attemptIndex === undefined) attemptIndex = 0;
             if (attemptIndex >= API_WILAYAH_ENDPOINTS.length) {
-                console.error('Semua sumber API gagal diakses.');
                 return Promise.resolve([]);
             }
-            
             var base = API_WILAYAH_ENDPOINTS[attemptIndex];
             return fetch(base + endpoint)
                 .then(function(res) {
@@ -598,7 +613,6 @@
             });
         }
 
-        // ================= VALIDATION & PAYMENT =================
         function validateAndGoToPayment() {
             var form = document.getElementById('formPendaftaran');
             if(!form.checkValidity()) {
@@ -656,28 +670,83 @@
             document.getElementById('qrisImage').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(dynamicQRISString);
         }
 
-        // ================= FILE UPLOAD & SUBMIT =================
+        // ================= FILE UPLOAD DENGAN KOMPRESI SUPER CEPAT =================
         function handleFileUpload(event) {
             var file = event.target.files[0];
             if(!file) return;
 
-            if(file.size > 2 * 1024 * 1024) { 
-                Swal.fire('File Terlalu Besar!', 'Maksimal ukuran file adalah 2MB.', 'error');
-                event.target.value = '';
+            // Jika file berupa PDF, tidak dikompres. Langsung baca aslinya.
+            if(file.type === 'application/pdf') {
+                if(file.size > 2 * 1024 * 1024) { 
+                    Swal.fire('File Terlalu Besar!', 'Maksimal ukuran file PDF adalah 2MB.', 'error');
+                    event.target.value = '';
+                    return;
+                }
+                var readerPDF = new FileReader();
+                readerPDF.onload = function(e) {
+                    appState.base64File = e.target.result.split(',')[1]; 
+                    appState.fileName = file.name;
+                    appState.mimeType = file.type;
+                    updateFileUI(file.name);
+                };
+                readerPDF.readAsDataURL(file);
                 return;
             }
 
+            // Jika file berupa GAMBAR (JPG/PNG), lakukan KOMPRESI agar loading sangat cepat!
+            document.getElementById('fileCompressing').classList.remove('hidden');
+            document.getElementById('filePreviewName').classList.add('hidden');
+            
             var reader = new FileReader();
             reader.onload = function(e) {
-                appState.base64File = e.target.result.split(',')[1]; 
-                appState.fileName = file.name;
-                appState.mimeType = file.type;
-                
-                var preview = document.getElementById('filePreviewName');
-                preview.innerHTML = '<i class="fa-solid fa-file-check mr-1"></i> File terpilih: ' + file.name;
-                preview.classList.remove('hidden');
+                var img = new Image();
+                img.onload = function() {
+                    // Siapkan area Canvas untuk mengecilkan foto
+                    var canvas = document.createElement('canvas');
+                    var MAX_WIDTH = 800; // Maksimal lebar foto 800 pixel
+                    var MAX_HEIGHT = 800;
+                    var width = img.width;
+                    var height = img.height;
+
+                    // Mengatur rasio agar proporsional
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Proses mengubah canvas menjadi foto berukuran kecil (kualitas 60%)
+                    var dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+                    
+                    appState.base64File = dataUrl.split(',')[1]; 
+                    // Ubah ekstensi nama menjadi jpg
+                    appState.fileName = file.name.split('.')[0] + '_compressed.jpg';
+                    appState.mimeType = 'image/jpeg';
+                    
+                    // Sembunyikan loading & Tampilkan nama file
+                    document.getElementById('fileCompressing').classList.add('hidden');
+                    updateFileUI(appState.fileName);
+                };
+                img.src = e.target.result;
             };
             reader.readAsDataURL(file);
+        }
+
+        function updateFileUI(namaFile) {
+            var preview = document.getElementById('filePreviewName');
+            preview.innerHTML = '<i class="fa-solid fa-file-check mr-1"></i> File terpilih: ' + namaFile;
+            preview.classList.remove('hidden');
         }
 
         function collectFormData() {
@@ -719,7 +788,6 @@
                 waktuDaftar: new Date().toISOString()
             };
 
-            // FALLBACK: Mencegah alamat kosong jika refresh langsung di halaman 3
             if (appState.restoredData) {
                 if (!result.domisili.provinsi && appState.restoredData.domisili) {
                     result.domisili.provinsi = appState.restoredData.domisili.provinsi || "";
@@ -751,14 +819,8 @@
                 return;
             }
 
-            // Pengecekan URL Web App
-            if(GAS_WEB_APP_URL.indexOf("ISI_DENGAN_URL") !== -1) {
-                Swal.fire('Error Konfigurasi', 'URL Google Apps Script belum disetel di kode HTML. Harap hubungi Panitia.', 'error');
-                return;
-            }
-
             var btn = document.getElementById('btnSubmit');
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menyimpan Data...';
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Mengirim Data (Cepat)...';
             btn.disabled = true;
 
             var finalData = collectFormData();
@@ -768,7 +830,6 @@
                 mimeType: appState.mimeType
             };
 
-            // Mengirim data pakai Fetch API dengan Header khusus untuk mencegah CORS Error Google
             fetch(GAS_WEB_APP_URL, {
                 method: 'POST',
                 headers: {
@@ -784,7 +845,6 @@
                     suksesSubmit(finalData);
                 } else {
                     Swal.fire('Tiket Gagal Dipesan', data.message || 'Gagal menyimpan data.', 'error').then(function(){
-                        // Jika penuh saat disubmit, reload untuk reset sistem sisa tiket
                         if(data.message.indexOf('sisa tiket') !== -1) window.location.reload();
                     });
                     resetSubmitBtn(btn);
@@ -806,7 +866,7 @@
             var totalBayarFormat = data.totalBayar.toLocaleString('id-ID');
             var pesanWA = 'Halo Panitia, saya *' + data.namaLengkap + '*.\n\nSaya baru saja mendaftar untuk Festival Budaya Gresik.\n- Jumlah: *' + totalOrang + ' Orang*\n- Total Bayar: *Rp ' + totalBayarFormat + '*\n\nBukti pembayaran sudah saya upload di website.\nMohon info dan konfirmasi E-Ticket selanjutnya. Terima kasih!';
             var pesanEncoded = encodeURIComponent(pesanWA);
-            var nomorPanitia = "6285179712235"; // Ganti dengan nomor WA panitia asli
+            var nomorPanitia = "6285179712235"; 
             var linkWA = 'https://wa.me/' + nomorPanitia + '?text=' + pesanEncoded;
 
             Swal.fire({
@@ -833,7 +893,7 @@
         }
 
         function restoreForm(data) {
-            appState.restoredData = data; // Simpan ke memori sebagai backup alamat
+            appState.restoredData = data; 
 
             var fill = function(id, val) { if(document.getElementById(id) && val) document.getElementById(id).value = val; };
             fill('nama', data.namaLengkap);

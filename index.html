@@ -4,15 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pendaftaran Festival Budaya Gresik</title>
-    <!-- Favicon -->
     <link rel="icon" href="LOGOFESBUD.png" type="image/png">
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -20,12 +15,11 @@
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        // Warna kustom menyesuaikan pamflet
                         fesbud: {
-                            green: '#164220', // Hijau gelap tulisan FESTIVAL
-                            dark: '#0a2110',  // Hijau sangat gelap untuk gradien
-                            yellow: '#e8a820', // Kuning emas tulisan tanggal
-                            light: '#f4f3da'  // Krem background pamflet
+                            green: '#164220', 
+                            dark: '#0a2110',  
+                            yellow: '#e8a820', 
+                            light: '#f4f3da'  
                         }
                     }
                 }
@@ -46,7 +40,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Background Zoom Animation - Diubah origin ke top left agar gambar mentok kiri */
+        /* Background Zoom Animation */
         .zoom-bg { animation: zoomBg 25s infinite alternate ease-in-out; transform-origin: top left; }
         @keyframes zoomBg {
             0% { transform: scale(1); }
@@ -56,28 +50,20 @@
 </head>
 <body class="bg-gray-100 text-gray-800 antialiased min-h-screen flex items-center justify-center p-4">
 
-    <!-- Main Card Container -->
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden relative border border-gray-200">
         
-        <!-- Header / Progress Bar -->
         <div id="progress-container" class="hidden bg-gray-200 h-2 w-full">
             <div id="progress-bar" class="bg-fesbud-yellow h-2 transition-all duration-500" style="width: 33.33%;"></div>
         </div>
 
-        <!-- ================= PAGE 1: HOME ================= -->
         <div id="page1" class="page-section fade-in relative min-h-[650px] md:min-h-[700px] flex flex-col justify-end overflow-hidden group bg-fesbud-light">
-            <!-- Background Image -->
             <div class="absolute inset-0 z-0">
-                <!-- Tambahkan object-left-top di class bawah ini agar gambar selalu mepet kiri -->
                 <img src="PHAMFLETFESBUD.jpeg" alt="Pamflet Festival Budaya Gresik" class="w-full h-full object-cover object-left-top zoom-bg">
-                <!-- Gradasi dipertinggi agar transisi ke area teks lebih halus -->
                 <div class="absolute bottom-0 w-full h-[70%] bg-gradient-to-t from-fesbud-dark via-fesbud-dark/70 to-transparent"></div>
             </div>
             
-            <!-- Content Overlay - Gaya Aplikasi Mobile (Bottom Sheet) -->
             <div class="relative z-10 w-full mt-auto bg-fesbud-dark/50 backdrop-blur-md rounded-t-[2rem] border-t border-white/20 p-6 md:p-8 pt-8">
                 
-                <!-- Badges (Dibuat Solid agar sangat jelas) -->
                 <div class="flex flex-wrap gap-3 mb-6">
                     <span class="bg-fesbud-yellow text-fesbud-dark px-3 py-1.5 text-xs font-extrabold rounded-full flex items-center shadow-lg">
                         <i class="fa-solid fa-star mr-1.5"></i> Festival Terbesar 2026
@@ -87,7 +73,6 @@
                     </span>
                 </div>
 
-                <!-- Title dengan Logo Otomatis Bulat -->
                 <div class="flex items-center gap-4 mb-6">
                     <img src="LOGOFESBUD1.png" alt="Logo" class="w-16 h-16 object-cover rounded-full border-2 border-fesbud-yellow shadow-[0_0_15px_rgba(232,168,32,0.4)] bg-white flex-shrink-0">
                     <h1 class="text-3xl md:text-4xl font-black leading-snug text-white drop-shadow-md">
@@ -95,7 +80,6 @@
                     </h1>
                 </div>
                 
-                <!-- Info Section -->
                 <div class="flex items-center gap-5 text-sm md:text-base text-gray-100 mb-8 border-l-4 border-fesbud-yellow pl-4">
                     <div class="flex flex-col gap-2.5 font-medium">
                         <span class="flex items-center gap-3"><i class="fa-regular fa-calendar text-fesbud-yellow text-lg w-5 text-center"></i> 3 Mei 2026</span>
@@ -104,14 +88,12 @@
                     </div>
                 </div>
 
-                <!-- Interactive Button -->
                 <button id="btnDaftarAwal" onclick="goToPage(2)" disabled class="w-full md:w-auto inline-flex justify-center items-center gap-3 bg-gray-500 text-white font-bold py-3.5 px-8 rounded-full transition-all duration-300 cursor-not-allowed opacity-90 shadow-lg">
                     <i class="fa-solid fa-spinner fa-spin"></i> Menyiapkan Sistem...
                 </button>
             </div>
         </div>
 
-        <!-- ================= PAGE 2: FORM PENDAFTARAN ================= -->
         <div id="page2" class="page-section hidden fade-in p-6 md:p-8">
             <div class="flex items-center gap-3 mb-6 border-b pb-4">
                 <button onclick="goToPage(1)" class="text-gray-400 hover:text-fesbud-green transition"><i class="fa-solid fa-chevron-left text-xl"></i></button>
@@ -119,7 +101,6 @@
             </div>
 
             <form id="formPendaftaran" class="space-y-6">
-                <!-- Data Diri -->
                 <div class="space-y-4 bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm">
                     <h3 class="font-semibold text-fesbud-green border-b border-gray-200 pb-2"><i class="fa-regular fa-id-card mr-2"></i>Data Diri Utama</h3>
                     
@@ -140,81 +121,80 @@
                     </div>
                 </div>
 
-                <!-- Alamat Domisili -->
                 <div class="space-y-4 bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm">
-                    <h3 class="font-semibold text-fesbud-green border-b border-gray-200 pb-2"><i class="fa-solid fa-house-chimney mr-2"></i>Alamat Domisili</h3>
+                    <h3 class="font-semibold text-fesbud-green border-b border-gray-200 pb-2"><i class="fa-solid fa-map-location-dot mr-2"></i>Alamat Asli (KTP)</h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Provinsi <span class="text-red-500">*</span></label>
-                            <select id="provDom" onchange="loadRegencies(this.value, 'kotaDom')" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-white outline-none">
+                            <select id="provAsli" onchange="loadRegencies(this.value, 'kotaAsli')" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-white outline-none">
                                 <option value="">Pilih Provinsi</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Kabupaten/Kota <span class="text-red-500">*</span></label>
-                            <select id="kotaDom" onchange="loadDistricts(this.value, 'kecDom')" required disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-gray-100 outline-none disabled:opacity-70">
+                            <select id="kotaAsli" onchange="loadDistricts(this.value, 'kecAsli')" required disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-gray-100 outline-none disabled:opacity-70">
                                 <option value="">Pilih Kab/Kota</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Kecamatan <span class="text-red-500">*</span></label>
-                            <select id="kecDom" onchange="loadVillages(this.value, 'desaDom')" required disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-gray-100 outline-none disabled:opacity-70">
+                            <select id="kecAsli" onchange="loadVillages(this.value, 'desaAsli')" required disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-gray-100 outline-none disabled:opacity-70">
                                 <option value="">Pilih Kecamatan</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Desa/Dusun <span class="text-red-500">*</span></label>
-                            <select id="desaDom" required disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-gray-100 outline-none disabled:opacity-70">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Desa/Kelurahan <span class="text-red-500">*</span></label>
+                            <select id="desaAsli" required disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-gray-100 outline-none disabled:opacity-70">
                                 <option value="">Pilih Desa/Kelurahan</option>
                             </select>
                         </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Jalan / Detail (Opsional)</label>
-                        <input type="text" id="jalanDom" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green outline-none transition" placeholder="Jl. Raya / Blok / RT RW">
-                    </div>
                 </div>
 
-                <!-- Alamat Asli -->
                 <div class="space-y-4 bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm">
                     <div class="flex items-center justify-between border-b border-gray-200 pb-2">
-                        <h3 class="font-semibold text-fesbud-green"><i class="fa-solid fa-map-location-dot mr-2"></i>Alamat Asli (KTP)</h3>
+                        <h3 class="font-semibold text-fesbud-green"><i class="fa-solid fa-house-chimney mr-2"></i>Alamat Domisili</h3>
                         <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" id="samaDomisili" onchange="toggleAlamatAsli()" class="rounded text-fesbud-green focus:ring-fesbud-green w-4 h-4">
-                            <span class="text-sm font-medium text-fesbud-green">Sama dengan Domisili</span>
+                            <input type="checkbox" id="samaKTP" onchange="toggleAlamatDom()" class="rounded text-fesbud-green focus:ring-fesbud-green w-4 h-4">
+                            <span class="text-sm font-medium text-fesbud-green">Sama dengan KTP</span>
                         </label>
                     </div>
                     
-                    <div id="containerAlamatAsli" class="grid grid-cols-1 md:grid-cols-2 gap-4 transition-all">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Provinsi <span class="text-red-500">*</span></label>
-                            <select id="provAsli" onchange="loadRegencies(this.value, 'kotaAsli')" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-white outline-none">
-                                <option value="">Pilih Provinsi</option>
-                            </select>
+                    <div id="containerAlamatDomisili" class="transition-all space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Provinsi <span class="text-red-500">*</span></label>
+                                <select id="provDom" onchange="loadRegencies(this.value, 'kotaDom')" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-white outline-none">
+                                    <option value="">Pilih Provinsi</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Kabupaten/Kota <span class="text-red-500">*</span></label>
+                                <select id="kotaDom" onchange="loadDistricts(this.value, 'kecDom')" required disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-gray-100 outline-none disabled:opacity-70">
+                                    <option value="">Pilih Kab/Kota</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Kecamatan <span class="text-red-500">*</span></label>
+                                <select id="kecDom" onchange="loadVillages(this.value, 'desaDom')" required disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-gray-100 outline-none disabled:opacity-70">
+                                    <option value="">Pilih Kecamatan</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Desa/Dusun <span class="text-red-500">*</span></label>
+                                <select id="desaDom" required disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-gray-100 outline-none disabled:opacity-70">
+                                    <option value="">Pilih Desa/Kelurahan</option>
+                                </select>
+                            </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Kabupaten/Kota <span class="text-red-500">*</span></label>
-                            <select id="kotaAsli" onchange="loadDistricts(this.value, 'kecAsli')" disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-gray-100 outline-none disabled:opacity-70">
-                                <option value="">Pilih Kab/Kota</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Kecamatan <span class="text-red-500">*</span></label>
-                            <select id="kecAsli" onchange="loadVillages(this.value, 'desaAsli')" disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-gray-100 outline-none disabled:opacity-70">
-                                <option value="">Pilih Kecamatan</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Desa/Dusun <span class="text-red-500">*</span></label>
-                            <select id="desaAsli" disabled class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green bg-gray-100 outline-none disabled:opacity-70">
-                                <option value="">Pilih Desa/Kelurahan</option>
-                            </select>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Jalan / Detail (Opsional)</label>
+                            <input type="text" id="jalanDom" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-fesbud-green outline-none transition" placeholder="Jl. Raya / Blok / RT RW">
                         </div>
                     </div>
                 </div>
 
-                <!-- Orang Tambahan -->
                 <div class="space-y-4 bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm">
                     <h3 class="font-semibold text-fesbud-green border-b border-gray-200 pb-2"><i class="fa-solid fa-users mr-2"></i>Tambahan Orang yang Hadir</h3>
                     <div>
@@ -224,8 +204,7 @@
                         </select>
                     </div>
                     <div id="containerNamaTambahan" class="space-y-3">
-                        <!-- Input fields dinamis akan muncul di sini -->
-                    </div>
+                        </div>
                 </div>
 
                 <div class="pt-4 border-t border-gray-200">
@@ -236,7 +215,6 @@
             </form>
         </div>
 
-        <!-- ================= PAGE 3: PEMBAYARAN ================= -->
         <div id="page3" class="page-section hidden fade-in p-6 md:p-8">
             <div class="flex items-center gap-3 mb-6 border-b pb-4">
                 <button onclick="goToPage(2)" class="text-gray-400 hover:text-fesbud-green transition"><i class="fa-solid fa-chevron-left text-xl"></i></button>
@@ -245,11 +223,10 @@
 
             <div class="bg-yellow-50 border border-fesbud-yellow/30 rounded-xl p-5 mb-6 text-center shadow-sm">
                 <p class="text-sm text-fesbud-green mb-1 font-medium">Total Tagihan untuk <strong id="lblJumlahOrang">1</strong> Orang</p>
-                <h3 class="text-3xl font-extrabold text-fesbud-green mb-2" id="lblTotalBayar">Rp 20.000</h3>
-                <p class="text-xs text-fesbud-green bg-fesbud-yellow/20 inline-block px-3 py-1 rounded-md font-semibold">Rp 20.000 / orang</p>
+                <h3 class="text-3xl font-extrabold text-fesbud-green mb-2" id="lblTotalBayar">Rp 30.000</h3>
+                <p class="text-xs text-fesbud-green bg-fesbud-yellow/20 inline-block px-3 py-1 rounded-md font-semibold">Rp 30.000 / orang</p>
             </div>
 
-            <!-- Transfer Bank / QR Info -->
             <div class="bg-white border rounded-xl mb-6 shadow-sm overflow-hidden">
                 <div class="bg-[#ed1c24] text-white p-3 text-center font-semibold flex items-center justify-center gap-2">
                     <i class="fa-solid fa-qrcode"></i> Scan QRIS Dinamis
@@ -257,7 +234,6 @@
                 <div class="p-5 flex flex-col items-center justify-center space-y-4">
                     <p class="text-sm text-gray-600 text-center">Gunakan aplikasi E-Wallet atau M-Banking Anda untuk scan kode di bawah ini.</p>
                     
-                    <!-- KOTAK GAMBAR QRIS -->
                     <div class="border-4 border-[#ed1c24] rounded-xl p-2 bg-white shadow-md relative group">
                         <img id="qrisImage" src="" alt="QRIS Mohammad Khilmi Azizi" class="w-48 h-48 object-contain transition-transform duration-300 group-hover:scale-105">
                     </div>
@@ -268,12 +244,11 @@
                     </div>
                     
                     <p class="text-xs text-fesbud-green bg-green-50 px-3 py-2 rounded border border-green-200 w-full text-center">
-                        <i class="fa-solid fa-circle-check mr-1"></i> Nominal tagihan <strong id="lblPeringatanNominal">Rp 20.000</strong> akan <strong>terisi otomatis</strong> saat di-scan.
+                        <i class="fa-solid fa-circle-check mr-1"></i> Nominal tagihan <strong id="lblPeringatanNominal">Rp 30.000</strong> akan <strong>terisi otomatis</strong> saat di-scan.
                     </p>
                 </div>
             </div>
 
-            <!-- OPSI TRANSFER BANK MANUAL -->
             <div class="bg-white border rounded-xl mb-6 shadow-sm overflow-hidden">
                 <div class="bg-fesbud-green text-white p-3 text-center font-semibold flex items-center justify-center gap-2">
                     <i class="fa-solid fa-building-columns"></i> Transfer Bank Manual
@@ -282,12 +257,11 @@
                     <p class="text-sm text-gray-600 text-center">Atau transfer langsung ke rekening bank di bawah ini.</p>
                     
                     <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 w-full text-center relative group shadow-inner">
-                        <p class="text-xs text-gray-500 mb-1 uppercase tracking-wide font-semibold">SeaBank</p>
-                        <!-- Ubah angka rekening sesuai kebutuhan -->
-                        <h4 class="text-2xl font-bold text-gray-800 tracking-wider font-mono">9015 4044 7091</h4>
-                        <p class="text-sm font-medium text-gray-700 mt-2">a.n. <span class="uppercase font-bold">MOHAMMAD KHILMI AZIZI</span></p>
+                        <p class="text-xs text-gray-500 mb-1 uppercase tracking-wide font-semibold">Bank BRI</p>
+                        <h4 class="text-2xl font-bold text-gray-800 tracking-wider font-mono">6286 0101 2345 539</h4>
+                        <p class="text-sm font-medium text-gray-700 mt-2">a.n. <span class="uppercase font-bold">NISLUKHAH</span></p>
                         
-                        <button type="button" onclick="copyRekening('901540447091')" class="absolute top-2 right-2 text-gray-400 hover:text-fesbud-green transition p-2 rounded-md hover:bg-green-50" title="Salin Rekening">
+                        <button type="button" onclick="copyRekening('628601012345539')" class="absolute top-2 right-2 text-gray-400 hover:text-fesbud-green transition p-2 rounded-md hover:bg-green-50" title="Salin Rekening">
                             <i class="fa-regular fa-copy text-lg"></i>
                         </button>
                     </div>
@@ -307,7 +281,6 @@
                             <input id="buktiBayar" type="file" accept="image/*,application/pdf" class="hidden" required onchange="handleFileUpload(event)" />
                         </label>
                     </div>
-                    <!-- Indikator Loading Kompresi -->
                     <div id="fileCompressing" class="mt-2 text-sm text-fesbud-yellow font-medium hidden text-center"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Sedang memproses gambar...</div>
                     <div id="filePreviewName" class="mt-2 text-sm text-fesbud-green font-medium hidden text-center"></div>
                 </div>
@@ -330,7 +303,6 @@
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
     <script>
         // ==========================================
         // 1. LINK BACKEND GOOGLE APPS SCRIPT ANDA
@@ -349,12 +321,12 @@
 
         var appState = {
             currentPage: 1,
-            ticketPrice: 20000,
+            ticketPrice: 30000, // HTM DIUBAH MENJADI 30.000
             base64File: null,
             fileName: null,
             mimeType: null,
             restoredData: null,
-            sisaTiket: 400 // Default awal
+            sisaTiket: 400 
         };
 
         // PENGAMANAN LINGKUNGAN BROWSER
@@ -500,22 +472,24 @@
             window.scrollTo(0, 0);
         }
 
-        // ================= FORM LOGIC =================
-        function toggleAlamatAsli() {
-            var isChecked = document.getElementById('samaDomisili').checked;
-            var container = document.getElementById('containerAlamatAsli');
-            var inputsAsli = container.querySelectorAll('select');
+        // ================= FORM LOGIC (DIBALIK UNTUK DOMISILI) =================
+        function toggleAlamatDom() {
+            var isChecked = document.getElementById('samaKTP').checked;
+            var container = document.getElementById('containerAlamatDomisili');
+            var inputs = container.querySelectorAll('select, input');
             
             if (isChecked) {
                 container.classList.add('opacity-50', 'pointer-events-none');
-                for(var i = 0; i < inputsAsli.length; i++) {
-                    inputsAsli[i].required = false;
-                    inputsAsli[i].classList.remove('border-red-500');
+                for(var i = 0; i < inputs.length; i++) {
+                    inputs[i].required = false;
+                    inputs[i].classList.remove('border-red-500');
                 }
             } else {
                 container.classList.remove('opacity-50', 'pointer-events-none');
-                for(var j = 0; j < inputsAsli.length; j++) {
-                    inputsAsli[j].required = true;
+                for(var j = 0; j < inputs.length; j++) {
+                    if(inputs[j].id !== 'jalanDom') {
+                        inputs[j].required = true;
+                    }
                 }
             }
             autoSaveDraft();
@@ -769,7 +743,7 @@
                 return el ? el.value : "";
             };
 
-            var elSama = document.getElementById('samaDomisili');
+            var elSama = document.getElementById('samaKTP');
             var isSama = elSama ? elSama.checked : false;
             
             var tambahanArr = [];
@@ -785,9 +759,9 @@
                 namaLengkap: getVal('nama'),
                 wa: getVal('wa'),
                 email: getVal('email'),
-                domisili: { provinsi: getName('provDom'), kota: getName('kotaDom'), kecamatan: getName('kecDom'), desa: getName('desaDom'), jalan: getVal('jalanDom') },
-                asli: isSama ? { provinsi: getName('provDom'), kota: getName('kotaDom'), kecamatan: getName('kecDom'), desa: getName('desaDom') } 
-                             : { provinsi: getName('provAsli'), kota: getName('kotaAsli'), kecamatan: getName('kecAsli'), desa: getName('desaAsli') },
+                domisili: isSama ? { provinsi: getName('provAsli'), kota: getName('kotaAsli'), kecamatan: getName('kecAsli'), desa: getName('desaAsli'), jalan: "" } 
+                                 : { provinsi: getName('provDom'), kota: getName('kotaDom'), kecamatan: getName('kecDom'), desa: getName('desaDom'), jalan: getVal('jalanDom') },
+                asli: { provinsi: getName('provAsli'), kota: getName('kotaAsli'), kecamatan: getName('kecAsli'), desa: getName('desaAsli') },
                 isAsliSamaDomisili: isSama,
                 jumlahTambahan: jml,
                 namaTambahan: tambahanArr,
@@ -796,13 +770,13 @@
             };
 
             if (appState.restoredData) {
-                if (!result.domisili.provinsi && appState.restoredData.domisili) {
+                if (!isSama && !result.domisili.provinsi && appState.restoredData.domisili) {
                     result.domisili.provinsi = appState.restoredData.domisili.provinsi || "";
                     result.domisili.kota = appState.restoredData.domisili.kota || "";
                     result.domisili.kecamatan = appState.restoredData.domisili.kecamatan || "";
                     result.domisili.desa = appState.restoredData.domisili.desa || "";
                 }
-                if (!isSama && !result.asli.provinsi && appState.restoredData.asli) {
+                if (!result.asli.provinsi && appState.restoredData.asli) {
                     result.asli.provinsi = appState.restoredData.asli.provinsi || "";
                     result.asli.kota = appState.restoredData.asli.kota || "";
                     result.asli.kecamatan = appState.restoredData.asli.kecamatan || "";
@@ -910,9 +884,9 @@
             if(data.domisili && data.domisili.jalan) fill('jalanDom', data.domisili.jalan);
             
             if(data.isAsliSamaDomisili) {
-                var elSama = document.getElementById('samaDomisili');
+                var elSama = document.getElementById('samaKTP');
                 if(elSama) elSama.checked = true;
-                toggleAlamatAsli();
+                toggleAlamatDom();
             }
             if(data.jumlahTambahan) {
                 fill('jumlahTambahan', data.jumlahTambahan);

@@ -80,8 +80,8 @@
                     <span class="glass px-3 py-1 text-xs font-semibold rounded-full text-emerald-300">
                         <i class="fa-solid fa-star text-amber-400 mr-1"></i> Festival Terbesar 2026
                     </span>
-                    <span class="glass px-3 py-1 text-xs font-semibold rounded-full text-white">
-                        Tiket Terbatas
+                    <span id="badgeKuota" class="glass px-3 py-1 text-xs font-semibold rounded-full text-white flex items-center">
+                        <i class="fa-solid fa-spinner fa-spin mr-2"></i> Mengecek ketersediaan tiket...
                     </span>
                 </div>
 
@@ -104,11 +104,8 @@
                 </div>
 
                 <!-- Interactive Button -->
-                <button onclick="goToPage(2)" class="w-full md:w-auto inline-flex justify-center items-center gap-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-8 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(16,185,129,0.6)] transform hover:-translate-y-1">
-                    Daftar Sekarang 
-                    <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center transition-transform group-hover:translate-x-1">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
+                <button id="btnDaftarAwal" onclick="goToPage(2)" disabled class="w-full md:w-auto inline-flex justify-center items-center gap-3 bg-gray-500 text-white font-bold py-3.5 px-8 rounded-full transition-all duration-300 cursor-not-allowed opacity-90">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Menyiapkan Sistem...
                 </button>
             </div>
         </div>
@@ -221,13 +218,9 @@
                     <h3 class="font-semibold text-gray-700 border-b pb-2"><i class="fa-solid fa-users mr-2 text-emerald-600"></i>Tambahan Orang yang Hadir</h3>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Berapa orang tambahan yang Anda bawa?</label>
+                        <!-- Pilihan dropdown ini akan digenerate otomatis berdasarkan sisa tiket -->
                         <select id="jumlahTambahan" onchange="generateTambahanFields()" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 bg-white outline-none">
                             <option value="0">Tidak Ada (Hanya Saya)</option>
-                            <option value="1">1 Orang</option>
-                            <option value="2">2 Orang</option>
-                            <option value="3">3 Orang</option>
-                            <option value="4">4 Orang</option>
-                            <option value="5">5 Orang</option>
                         </select>
                     </div>
                     <div id="containerNamaTambahan" class="space-y-3">
@@ -339,7 +332,8 @@
             base64File: null,
             fileName: null,
             mimeType: null,
-            restoredData: null
+            restoredData: null,
+            sisaTiket: 400 // Default awal
         };
 
         // PENGAMANAN LINGKUNGAN BROWSER
@@ -352,10 +346,13 @@
             isStorageSafe = false;
         }
 
-        // ================= LIFECYCLE & AUTO-SAVE =================
+        // ================= LIFECYCLE & CEK KUOTA =================
         document.addEventListener('DOMContentLoaded', function() {
             loadProvinces('provDom');
             loadProvinces('provAsli');
+            
+            // Pengecekan Kuota secara Live ke Database (Sheets)
+            cekKuotaLive();
             
             var savedDraft = null;
             if(isStorageSafe) {
@@ -395,6 +392,66 @@
                 inputs[i].addEventListener('input', autoSaveDraft);
             }
         });
+
+        // FUNGSI CEK KUOTA 400 ORANG
+        function cekKuotaLive() {
+            // Memanggil API via GET Request ke Apps Script
+            fetch(GAS_WEB_APP_URL + "?action=cek_kuota")
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                if(data && data.status === 'success') {
+                    var terdaftar = parseInt(data.total);
+                    var maks = parseInt(data.maksimal);
+                    appState.sisaTiket = Math.max(0, maks - terdaftar);
+                    
+                    updateTampilanSisaTiket(appState.sisaTiket);
+                }
+            })
+            .catch(function(error) {
+                console.warn("Gagal mengecek kuota live, menggunakan default.", error);
+                updateTampilanSisaTiket(50); // Fallback palsu agar form tetap bisa dibuka bila internet lag
+            });
+        }
+
+        function updateTampilanSisaTiket(sisa) {
+            var badge = document.getElementById('badgeKuota');
+            var btn = document.getElementById('btnDaftarAwal');
+            
+            if(sisa <= 0) {
+                // Kuota Habis
+                badge.innerHTML = '<i class="fa-solid fa-circle-xmark text-red-500 mr-1"></i> Kuota Habis';
+                badge.className = 'glass px-3 py-1 text-xs font-semibold rounded-full text-red-200 flex items-center bg-red-900/50';
+                
+                btn.innerHTML = 'Tiket Habis Terjual <i class="fa-solid fa-ban ml-2"></i>';
+                btn.className = 'w-full md:w-auto inline-flex justify-center items-center gap-3 bg-gray-600 text-gray-300 font-bold py-3.5 px-8 rounded-full cursor-not-allowed';
+                btn.disabled = true;
+            } else {
+                // Masih ada kuota
+                badge.innerHTML = '<i class="fa-solid fa-ticket text-amber-400 mr-1"></i> Sisa ' + sisa + ' Tiket';
+                badge.className = 'glass px-3 py-1 text-xs font-semibold rounded-full text-white flex items-center';
+                
+                btn.innerHTML = 'Daftar Sekarang <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center transition-transform group-hover:translate-x-1"><i class="fa-solid fa-arrow-right text-sm"></i></div>';
+                btn.className = 'w-full md:w-auto inline-flex justify-center items-center gap-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-8 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(16,185,129,0.6)] transform hover:-translate-y-1';
+                btn.disabled = false;
+                
+                // Set maksimal orang tambahan sesuai sisa tiket
+                updateDropdownTambahan(sisa);
+            }
+        }
+
+        function updateDropdownTambahan(sisaTiket) {
+            var select = document.getElementById('jumlahTambahan');
+            select.innerHTML = '<option value="0">Tidak Ada (Hanya Saya)</option>';
+            
+            // Maksimal bisa ajak 5 orang, tapi dibatasi oleh sisa tiket (dikurangi 1 untuk dirinya sendiri)
+            var maksBawa = Math.min(5, sisaTiket - 1);
+            
+            for(var i = 1; i <= maksBawa; i++) {
+                select.innerHTML += '<option value="' + i + '">' + i + ' Orang</option>';
+            }
+        }
 
         function autoSaveDraft() {
             if(!isStorageSafe) return;
@@ -726,7 +783,10 @@
                 if(data.status === 'success') {
                     suksesSubmit(finalData);
                 } else {
-                    Swal.fire('Error Server', data.message || 'Gagal menyimpan data.', 'error');
+                    Swal.fire('Tiket Gagal Dipesan', data.message || 'Gagal menyimpan data.', 'error').then(function(){
+                        // Jika penuh saat disubmit, reload untuk reset sistem sisa tiket
+                        if(data.message.indexOf('sisa tiket') !== -1) window.location.reload();
+                    });
                     resetSubmitBtn(btn);
                 }
             })
